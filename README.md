@@ -1,4 +1,10 @@
 # PLP-PROJECT
+Projeto da disciplina de Paradigmas de Linguagem(IN-1007) de Programação do CIn - UFPE
+
+# EQUIPE:
+* João Pedro Monteiro Pereira jpmp2@cin.ufpe.br
+* André Souza alssg@cin.ufpe.br
+
 # Escopo do Projeto: Implementação de ValorMapa na Linguagem Funcional 3
 
 ## 1. Objetivo
