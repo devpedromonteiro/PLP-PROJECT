@@ -79,6 +79,41 @@ let usuarios = map {
 } in
 get(get(usuarios, "joao"), "idade")
 ```
+### 4.1 ExpCompreensaoMapa (Compreensão de Mapa)
+```
+// Sem filtro
+let quadrados = map { x => x * x for x in [1,2,3] } in
+// Resultado: {1 => 1, 2 => 4, 3 => 9}
+
+// Com filtro
+let pares = map { x => x * 2 for x in [1,2,3,4,5] if x % 2 == 0 } in
+// Resultado: {2 => 4, 4 => 8}
+```
+
+### 4.1.2
+```
+// Criando mapa com compreensão e filtro
+let dados = [1, 2, 3, 4, 5] in
+let mapaPares = map { 
+    x => x * x 
+    for x in dados 
+    if x % 2 == 0 
+} in
+
+// Mapa aninhado com múltiplos pares
+let usuarios = map {
+    "admin" => map {
+        "nome" => "João",
+        "permissoes" => ["ler", "escrever"]
+    },
+    "usuario" => map {
+        "nome" => "Maria",
+        "permissoes" => ["ler"]
+    }
+} in
+get(get(usuarios, "admin"), "permissoes")
+```
+
 ## 5 BNF:
 ```
 Programa ::= Expressao
