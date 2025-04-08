@@ -79,5 +79,68 @@ let usuarios = map {
 } in
 get(get(usuarios, "joao"), "idade")
 ```
+## 5 BNF:
+Programa ::= Expressao
+
+Expressao ::= Valor
+
+| ExpUnaria
+| ExpBinaria
+| ExpDeclaracao
+| Id
+| Aplicacao
+| IfThenElse
+
+Valor ::= ValorConcreto | ValorAbstrato
+
+ValorAbstrato ::= ValorFuncao
+
+ValorConcreto ::= ValorInteiro | ValorBooleano | ValorString | ValorLista
+
+ValorFuncao ::= "fn" Id Id "." Expressao
+
+ExpUnaria ::= "-" Expressao | "not" Expressao | "length" Expressao
+                          | head(Expressao) | tail(Expressao)
+                          | ExpCompreensaoLista
+
+ExpCompreensaoLista ::= Expressao Gerador | Expressao Gerador Filtro
+
+Gerador ::= “for” Id “in” Expressao
+                | “for” Id “in” Expressao [“,”] Gerador
+
+Filtro ::= “if” Expressao
+
+ExpBinaria ::=     Expressao "+" Expressao
+
+| Expressao "-" Expressao
+
+| Expressao "*" Expressao
+| Expressao ">" Expressao
+| Expressao "<" Expressao
+| Expressao "and" Expressao
+| Expressao "or" Expressao
+| Expressao "==" Expressao
+| Expressao "++" Expressao
+| Expressao ".." Expressao
+| Expressao ":" Expressao
+| Expressao "^^" Expressao
+
+ExpDeclaracao ::= "let" DeclaracaoFuncional "in" Expressao
+
+DeclaracaoFuncional ::= DecVariavel
+| DecFuncao
+| DecComposta
+
+DecVariavel ::= "var" Id "=" Expressao
+
+DecFuncao ::= "fun" ListId "=" Expressao
+
+DecComposta ::= DeclaracaoFuncional "," DeclaracaoFuncional
+
+ListId ::= Id  |  Id, ListId
+
+Aplicacao:= Expressao"(" ListExp ")"
+
+ListExp ::= Expressao  |  Expressao, ListExp
 
 Este escopo fornece uma base para implementação do `ValorMapa`, mantendo a natureza funcional da linguagem e adicionando funcionalidade útil para manipulação de dados estruturados.
