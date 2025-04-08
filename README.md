@@ -14,7 +14,11 @@ Implementar um novo tipo de valor `ValorMapa` que permita armazenar e manipular 
 
 ```bnf
 // Adição ao ValorConcreto existente
-ValorConcreto ::= ValorInteiro | ValorBooleano | ValorString | ValorLista | ValorMapa
+ValorConcreto ::= ValorInteiro 
+                | ValorBooleano 
+                | ValorString 
+                | ValorLista 
+                | ValorMapa
 
 // Novas expressões para manipulação de mapas
 ExpMapa ::= "map" "{" ListaKeyValue "}" 
@@ -24,11 +28,16 @@ ExpMapa ::= "map" "{" ListaKeyValue "}"
           | "contains" "(" Expressao "," Expressao ")"
           | "keys" "(" Expressao ")"
           | "values" "(" Expressao ")"
+          | ExpCompreensaoMapa
 
 ListaKeyValue ::= KeyValue 
                 | KeyValue "," ListaKeyValue
 
 KeyValue ::= Expressao "=>" Expressao
+
+// Nova expressão para compreensão de mapa
+ExpCompreensaoMapa ::= "map" "{" Expressao "=>" Expressao Gerador "}"
+                     | "map" "{" Expressao "=>" Expressao Gerador Filtro "}"
 ```
 
 ## 3. Operações Suportadas
@@ -114,7 +123,7 @@ let usuarios = map {
 get(get(usuarios, "admin"), "permissoes")
 ```
 
-## 5 BNF:
+## 5 BNF Completa:
 ```
 Programa ::= Expressao
 
@@ -178,6 +187,7 @@ ExpMapa ::= "map" "{" ListaKeyValue "}"          // Criação de mapa
           | "contains" "(" Expressao "," Expressao ")"              // Verificação
           | "keys" "(" Expressao ")"                                // Lista de chaves
           | "values" "(" Expressao ")"                              // Lista de valores
+          | ExpCompreensaoMapa
 
 ListaKeyValue ::= KeyValue 
                 | KeyValue "," ListaKeyValue
