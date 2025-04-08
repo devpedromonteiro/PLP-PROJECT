@@ -83,53 +83,76 @@ get(get(usuarios, "joao"), "idade")
 Programa ::= Expressao
 
 Expressao ::= Valor
-
-| ExpUnaria
-| ExpBinaria
-| ExpDeclaracao
-| Id
-| Aplicacao
-| IfThenElse
+            | ExpUnaria
+            | ExpBinaria
+            | ExpDeclaracao
+            | Id
+            | Aplicacao
+            | IfThenElse
+            | ExpMapa            // Nova expressão
 
 Valor ::= ValorConcreto | ValorAbstrato
 
 ValorAbstrato ::= ValorFuncao
 
-ValorConcreto ::= ValorInteiro | ValorBooleano | ValorString | ValorLista
+ValorConcreto ::= ValorInteiro 
+                | ValorBooleano 
+                | ValorString 
+                | ValorLista
+                | ValorMapa     // Novo tipo concreto
 
 ValorFuncao ::= "fn" Id Id "." Expressao
 
-ExpUnaria ::= "-" Expressao | "not" Expressao | "length" Expressao
-                          | head(Expressao) | tail(Expressao)
-                          | ExpCompreensaoLista
+ExpUnaria ::= "-" Expressao 
+            | "not" Expressao 
+            | "length" Expressao
+            | head(Expressao) 
+            | tail(Expressao)
+            | ExpCompreensaoLista
+            | ExpCompreensaoMapa    // Nova expressão unária
 
-ExpCompreensaoLista ::= Expressao Gerador | Expressao Gerador Filtro
+ExpCompreensaoLista ::= Expressao Gerador 
+                      | Expressao Gerador Filtro
 
-Gerador ::= “for” Id “in” Expressao
-                | “for” Id “in” Expressao [“,”] Gerador
+ExpCompreensaoMapa ::= "map" "{" Expressao "=>" Expressao Gerador "}"
+                     | "map" "{" Expressao "=>" Expressao Gerador Filtro "}"
 
-Filtro ::= “if” Expressao
+Gerador ::= "for" Id "in" Expressao
+          | "for" Id "in" Expressao [","] Gerador
 
-ExpBinaria ::=     Expressao "+" Expressao
+Filtro ::= "if" Expressao
 
-| Expressao "-" Expressao
+ExpBinaria ::= Expressao "+" Expressao
+             | Expressao "-" Expressao
+             | Expressao "*" Expressao
+             | Expressao ">" Expressao
+             | Expressao "<" Expressao
+             | Expressao "and" Expressao
+             | Expressao "or" Expressao
+             | Expressao "==" Expressao
+             | Expressao "++" Expressao
+             | Expressao ".." Expressao
+             | Expressao ":" Expressao
+             | Expressao "^^" Expressao
 
-| Expressao "*" Expressao
-| Expressao ">" Expressao
-| Expressao "<" Expressao
-| Expressao "and" Expressao
-| Expressao "or" Expressao
-| Expressao "==" Expressao
-| Expressao "++" Expressao
-| Expressao ".." Expressao
-| Expressao ":" Expressao
-| Expressao "^^" Expressao
+ExpMapa ::= "map" "{" ListaKeyValue "}"          // Criação de mapa
+          | "insert" "(" Expressao "," Expressao "," Expressao ")"  // Inserção
+          | "remove" "(" Expressao "," Expressao ")"                // Remoção
+          | "get" "(" Expressao "," Expressao ")"                   // Consulta
+          | "contains" "(" Expressao "," Expressao ")"              // Verificação
+          | "keys" "(" Expressao ")"                                // Lista de chaves
+          | "values" "(" Expressao ")"                              // Lista de valores
+
+ListaKeyValue ::= KeyValue 
+                | KeyValue "," ListaKeyValue
+
+KeyValue ::= Expressao "=>" Expressao
 
 ExpDeclaracao ::= "let" DeclaracaoFuncional "in" Expressao
 
 DeclaracaoFuncional ::= DecVariavel
-| DecFuncao
-| DecComposta
+                      | DecFuncao
+                      | DecComposta
 
 DecVariavel ::= "var" Id "=" Expressao
 
@@ -137,10 +160,10 @@ DecFuncao ::= "fun" ListId "=" Expressao
 
 DecComposta ::= DeclaracaoFuncional "," DeclaracaoFuncional
 
-ListId ::= Id  |  Id, ListId
+ListId ::= Id | Id "," ListId
 
-Aplicacao:= Expressao"(" ListExp ")"
+Aplicacao ::= Expressao "(" ListExp ")"
 
-ListExp ::= Expressao  |  Expressao, ListExp
+ListExp ::= Expressao | Expressao "," ListExp
 
 Este escopo fornece uma base para implementação do `ValorMapa`, mantendo a natureza funcional da linguagem e adicionando funcionalidade útil para manipulação de dados estruturados.
