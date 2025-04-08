@@ -213,4 +213,4 @@ Aplicacao ::= Expressao "(" ListExp ")"
 ListExp ::= Expressao | Expressao "," ListExp
 ```
 
-Este escopo fornece uma base para implementação do `ValorMapa`, mantendo a natureza funcional da linguagem e adicionando funcionalidade útil para manipulação de dados estruturados.
+Este escopo fornece uma base para implementação do `ValorMapa`, mantendo a natureza funcional da linguagem e adicionando funcionalidade útil para manipulação de dados estruturados além da adição da nova expressão ExpCompreensaoMapa.
