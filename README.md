@@ -99,7 +99,7 @@ let pares = map { x => x * 2 for x in [1,2,3,4,5] if x % 2 == 0 } in
 // Resultado: {2 => 4, 4 => 8}
 ```
 
-### 4.1.2 Exemplos Complexos Combinando os Conceitos
+### 4.2 Exemplos Complexos Combinando os Conceitos
 ```
 // Criando mapa com compreensão e filtro
 let dados = [1, 2, 3, 4, 5] in
