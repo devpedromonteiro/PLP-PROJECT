@@ -18,97 +18,166 @@ import lf3.plp.functional3.util.TipoLista;
 
 public class Gerador {
 
-	private Id id;
-	private Expressao expressao;
-	private Gerador proximo;
+    private Id id;
+    private Expressao expressao;
+    private Gerador proximo;
 
-	public Gerador(Id id, Expressao expressao) {
-		this.id = id;
-		this.expressao = expressao;
-	}
+    public Gerador(Id id, Expressao expressao) {
+        this.id = id;
+        this.expressao = expressao;
+    }
 
-	public Gerador getProximoGerador() {
-		return proximo;
-	}
+    public Id getId() {
+        return id;
+    }
 
-	public void addProximoGerador(Gerador gerador) {
-		if (this.proximo == null) {
-			this.proximo = gerador;
-		} else {
-			this.proximo.addProximoGerador(gerador);
-		}
-	}
+    public Expressao getExpressao() {
+        return expressao;
+    }
 
-	public void gerarValores(AmbienteExecucao amb, ValorLista resultado,
-			Expressao expressao, Expressao filtro)
-			throws VariavelNaoDeclaradaException, VariavelJaDeclaradaException {
+    public Gerador getProximoGerador() {
+        return proximo;
+    }
 
-		// Usamos uma lista auxiliar pois a lista original pode ser  
-		// iterada mais de uma vez.
-		ValorLista temp = (ValorLista) this.expressao.avaliar(amb);
+    public void addProximoGerador(Gerador gerador) {
+        if (this.proximo == null) {
+            this.proximo = gerador;
+        } else {
+            this.proximo.addProximoGerador(gerador);
+        }
+    }
 
-		// Enquanto houver elementos na lista
-		while (temp != null && !temp.isEmpty()) {
-			amb.incrementa();
+    public void gerarValores(AmbienteExecucao amb, ValorLista resultado,
+            Expressao expressao, Expressao filtro)
+            throws VariavelNaoDeclaradaException, VariavelJaDeclaradaException {
 
-			// Avalia o proximo valor da lista
-			Valor valor = temp.getHead().avaliar(amb);
-			amb.map(this.id, valor);
-			temp = temp.getTail();
+        Valor valorExpressao = this.expressao.avaliar(amb);
+        
+        if (valorExpressao instanceof ValorLista) {
+            ValorLista temp = (ValorLista) valorExpressao;
 
-			// Se esse for o �ltimo gerador, ent�o devemos avaliar a express�o
-			// de filtro e, se o resultado for 'true', devemos avaliar a express�o
-			// em si adicionando seu resultado a lista de sa�da.
-			if (getProximoGerador() == null) {
-				if (filtro == null
-						|| ((ValorBooleano) filtro.avaliar(amb)).valor()) {
-					resultado.cons(expressao.avaliar(amb));
-				}
-			} else {
-				// Se um pr�ximo gerador encadeado devemos chamar 'gerarValores' para 
-				// que esse gerador fa�a o bind de sua vari�vel.
-				getProximoGerador().gerarValores(amb, resultado, expressao,
-						filtro);
-			}
+            while (temp != null && !temp.isEmpty()) {
+                amb.incrementa();
 
-			amb.restaura();
-		}
-	}
+                Valor valor = temp.getHead().avaliar(amb);
+                amb.map(this.id, valor);
+                temp = temp.getTail();
 
-	public boolean temProximoGerador() {
-		return proximo != null;
-	}
+                if (getProximoGerador() == null) {
+                    if (filtro == null || ((ValorBooleano) filtro.avaliar(amb)).valor()) {
+                        resultado.cons(expressao.avaliar(amb));
+                    }
+                } else {
+                    getProximoGerador().gerarValores(amb, resultado, expressao, filtro);
+                }
 
-	public Map<Id, Tipo> checkTypeBindings(AmbienteCompilacao amb) {
-		HashMap<Id, Tipo> tipos = new HashMap<Id, Tipo>();
+                amb.restaura();
+            }
+        }
+    }
 
-		Tipo tipo = expressao.getTipo(amb);
-		if (tipo instanceof TipoPolimorfico) {
-			TipoPolimorfico tp = (TipoPolimorfico) tipo;
-			tipo = tp.getTipoInstanciado();
-		}
-		TipoLista tipoLista = (TipoLista) tipo;
-		tipos.put(id, tipoLista.getSubTipo());
-		if (temProximoGerador()) {
-			tipos.putAll(proximo.checkTypeBindings(amb));
-		}
+    public void gerarParesMapa(AmbienteExecucao amb, Map<Valor, Valor> resultado,
+            Expressao chaveExpr, Expressao valorExpr, Expressao filtro)
+            throws VariavelNaoDeclaradaException, VariavelJaDeclaradaException {
 
-		return tipos;
+        Valor valorExpressao = this.expressao.avaliar(amb);
+        
+        if (valorExpressao instanceof ValorLista) {
+            ValorLista temp = (ValorLista) valorExpressao;
 
-	}
+            while (temp != null && !temp.isEmpty()) {
+                amb.incrementa();
 
-	public boolean checaTipo(AmbienteCompilacao amb) {
-		return this.expressao.checaTipo(amb)
-				&& (!temProximoGerador() || proximo.checaTipo(amb));
-	}
+                Valor valor = temp.getHead().avaliar(amb);
+                amb.map(this.id, valor);
+                temp = temp.getTail();
 
-	public void reduzir(AmbienteExecucao ambiente) {
-		this.expressao.reduzir(ambiente);
-		
-		ambiente.map(this.id, new ValorIrredutivel());
-	}
-	
-	public String toString() {
-		return " for " + this.id + " in " + this.expressao;
-	}
+                if (getProximoGerador() == null) {
+                    if (filtro == null || ((ValorBooleano) filtro.avaliar(amb)).valor()) {
+                        Valor chave = chaveExpr.avaliar(amb);
+                        Valor valorMapa = valorExpr.avaliar(amb);
+                        resultado.put(chave, valorMapa);
+                    }
+                } else {
+                    getProximoGerador().gerarParesMapa(amb, resultado, chaveExpr, valorExpr, filtro);
+                }
+
+                amb.restaura();
+            }
+        }
+    }
+
+    public boolean temProximoGerador() {
+        return proximo != null;
+    }
+
+    public Map<Id, Tipo> checkTypeBindings(AmbienteCompilacao amb) {
+        HashMap<Id, Tipo> tipos = new HashMap<Id, Tipo>();
+
+        Tipo tipo = expressao.getTipo(amb);
+        if (tipo instanceof TipoPolimorfico) {
+            TipoPolimorfico tp = (TipoPolimorfico) tipo;
+            tipo = tp.getTipoInstanciado();
+        }
+        
+        if (tipo instanceof TipoLista) {
+            TipoLista tipoLista = (TipoLista) tipo;
+            tipos.put(id, tipoLista.getSubTipo());
+        }
+        
+        if (temProximoGerador()) {
+            tipos.putAll(proximo.checkTypeBindings(amb));
+        }
+
+        return tipos;
+    }
+
+    public void mapearTipo(AmbienteCompilacao amb) throws VariavelNaoDeclaradaException, VariavelJaDeclaradaException {
+        Tipo tipo = expressao.getTipo(amb);
+        if (tipo instanceof TipoPolimorfico) {
+            tipo = ((TipoPolimorfico) tipo).getTipoInstanciado();
+        }
+        
+        if (tipo instanceof TipoLista) {
+            amb.map(id, ((TipoLista) tipo).getSubTipo());
+        }
+        
+        if (temProximoGerador()) {
+            proximo.mapearTipo(amb);
+        }
+    }
+
+    public boolean checaTipo(AmbienteCompilacao amb) throws VariavelNaoDeclaradaException, VariavelJaDeclaradaException {
+        boolean tipoOk = expressao.checaTipo(amb);
+        Tipo tipo = expressao.getTipo(amb);
+        
+        if (tipo instanceof TipoPolimorfico) {
+            tipo = ((TipoPolimorfico) tipo).getTipoInstanciado();
+        }
+        
+        tipoOk &= tipo instanceof TipoLista;
+        
+        if (temProximoGerador()) {
+            tipoOk &= proximo.checaTipo(amb);
+        }
+        
+        return tipoOk;
+    }
+
+    public Gerador reduzir(AmbienteExecucao ambiente) {
+        this.expressao = this.expressao.reduzir(ambiente);
+        if (this.proximo != null) {
+            this.proximo = this.proximo.reduzir(ambiente);
+        }
+        return this;
+    }
+    
+    public Gerador clone() {
+        Gerador novoProximo = proximo != null ? proximo.clone() : null;
+        return new Gerador(id.clone(), expressao.clone());
+    }
+    
+    public String toString() {
+        return " for " + this.id + " in " + this.expressao;
+    }
 }

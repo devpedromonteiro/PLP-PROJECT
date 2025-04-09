@@ -103,6 +103,16 @@ public class ValorLista extends ValorConcreto<List<Expressao>> {
 		return this;
 	}
 
+	public Iterable<Expressao> iterable() {
+		List<Expressao> lista = new ArrayList<>();
+		ValorLista temp = this;
+		while (temp != null && !temp.isEmpty()) {
+			lista.add(temp.getHead());
+			temp = temp.getTail();
+		}
+		return lista;
+	}
+
 	/**
 	 * 
 	 * Inverte os elementos de uma lista
