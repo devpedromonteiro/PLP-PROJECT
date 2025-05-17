@@ -119,6 +119,11 @@ public class Func3Parser
         ValorLista valLista = (ValorLista) val;
         System.out.println("Funcional 3 PLP Parser Version 0.0.1: resultado = " + valLista.valor());
       }
+      else if (val instanceof ValorMapa)
+      {
+        ValorMapa valMapa = (ValorMapa) val;
+        System.out.println("Funcional 3 PLP Parser Version 0.0.1: resultado = " + valMapa);
+      }
     }
     catch (Exception e)
     {
