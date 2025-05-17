@@ -45,6 +45,8 @@ public class ExpDeclaracao implements Expressao {
 
 	public Valor avaliar(AmbienteExecucao ambiente)
 			throws VariavelNaoDeclaradaException, VariavelJaDeclaradaException {
+		
+		//System.out.println("Iniciando avaliação de ExpDeclaracao...");
 		ambiente.incrementa();
 
 		// Como declaracoes feitas neste nivel nao devem ter influencia
@@ -55,7 +57,9 @@ public class ExpDeclaracao implements Expressao {
 		declaracao.elabora(ambiente, aux);
 		declaracao.incluir(ambiente, aux);
 		aux.restaura();
+
 		Valor vresult = expressao.avaliar(ambiente);
+		System.out.println("Resultado da avaliação de ExpDeclaracao: " + vresult);
 		
 		if(vresult instanceof ValorFuncao)
 			vresult.reduzir(ambiente);
