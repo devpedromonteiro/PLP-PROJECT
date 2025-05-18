@@ -196,6 +196,7 @@ TOKEN : /* TOKENS DE FUNCIONAL 3 */
 | < FOR : "for" >
 | < INSERT : "insert" >
 | < REMOVE : "remove" >
+| < GET : "get" >
 }
 
 TOKEN : /* LITERALS */
@@ -713,6 +714,18 @@ Expressao PExpRemove() :
   }
 }
 
+Expressao PExpGet() :
+{
+  Expressao mapa = null;
+  Expressao chave = null;
+}
+{
+  < GET > < LPAREN > mapa = PExpressao() < COMMA > chave = PExpressao() < RPAREN >
+  {
+    return new ExpGet(mapa, chave);
+  }
+}
+
 Expressao PExpTail() :
 {
   Expressao tmpExp = null;
@@ -790,6 +803,9 @@ Expressao PExpUnaria() :
   | 
     LOOKAHEAD(PExpRemove())
     retorno = PExpRemove()
+  | 
+    LOOKAHEAD(PExpGet())
+    retorno = PExpGet()
   | 
     LOOKAHEAD(PExpDeclaracao())
     retorno = PExpDeclaracao()
