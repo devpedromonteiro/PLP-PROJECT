@@ -46,6 +46,10 @@ public class ValorMapa extends ValorConcreto<Map<Expressao, Expressao>> {
         return this.mapa.isEmpty();
     }
 
+    public java.util.Set<Expressao> getChaves() {
+        return this.mapa.keySet();
+    }
+
     @Override
     public boolean checaTipo(AmbienteCompilacao amb)
             throws VariavelNaoDeclaradaException, VariavelJaDeclaradaException {
