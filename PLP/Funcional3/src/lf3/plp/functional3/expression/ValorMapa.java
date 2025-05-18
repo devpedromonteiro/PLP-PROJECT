@@ -30,6 +30,10 @@ public class ValorMapa extends ValorConcreto<Map<Expressao, Expressao>> {
         this.mapa.put(chave, valor);
     }
 
+    public void remove(Expressao chave) {
+        this.mapa.remove(chave);
+    }
+
     public Expressao get(Expressao chave) {
         return this.mapa.get(chave);
     }
