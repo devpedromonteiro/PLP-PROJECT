@@ -1,0 +1,3 @@
+// Retorno: resultado=false
+let var mapa = { 1 => 2, 3 => 4 } in
+  contains(mapa, 4)
