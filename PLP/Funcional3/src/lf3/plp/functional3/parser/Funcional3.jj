@@ -194,6 +194,7 @@ TOKEN : /* TOKENS DE FUNCIONAL 3 */
 | < HEAD : "head" >
 | < TAIL : "tail" >
 | < FOR : "for" >
+| < INSERT : "insert" >
 }
 
 TOKEN : /* LITERALS */
@@ -686,6 +687,19 @@ Expressao PExpHead() :
   }
 }
 
+Expressao PExpInsert() :
+{
+  Expressao mapa = null;
+  Expressao chave = null;
+  Expressao valor = null;
+}
+{
+  < INSERT > < LPAREN > mapa = PExpressao() < COMMA > chave = PExpressao() < COMMA > valor = PExpressao() < RPAREN >
+  {
+    return new ExpInsert(mapa, chave, valor);
+  }
+}
+
 Expressao PExpTail() :
 {
   Expressao tmpExp = null;
@@ -757,6 +771,9 @@ Expressao PExpUnaria() :
   | 
     LOOKAHEAD(PExpTail())
     retorno = PExpTail()
+  | 
+    LOOKAHEAD(PExpInsert())
+    retorno = PExpInsert()
   | 
     LOOKAHEAD(PExpDeclaracao())
     retorno = PExpDeclaracao()
