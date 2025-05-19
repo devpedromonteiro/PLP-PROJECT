@@ -75,6 +75,34 @@ public class Gerador {
 		}
 	}
 
+	public void gerarValoresMapa(AmbienteExecucao amb, ValorMapa resultado,
+                             Expressao chaveExpressao, Expressao valorExpressao, Expressao filtro)
+        throws VariavelNaoDeclaradaException, VariavelJaDeclaradaException {
+
+		ValorLista temp = (ValorLista) this.expressao.avaliar(amb);
+
+		while (temp != null && !temp.isEmpty()) {
+			amb.incrementa();
+
+			// Faz o bind do elemento atual ao identificador
+			Valor elemento = temp.getHead().avaliar(amb);
+			amb.map(this.id, elemento);
+
+			if (getProximoGerador() == null) {
+				if (filtro == null || ((ValorBooleano) filtro.avaliar(amb)).valor()) {
+					Expressao chave = chaveExpressao.avaliar(amb);
+					Expressao valor = valorExpressao.avaliar(amb);
+					resultado.put(chave, valor);
+				}
+			} else {
+				getProximoGerador().gerarValoresMapa(amb, resultado, chaveExpressao, valorExpressao, filtro);
+			}
+
+			temp = temp.getTail();
+			amb.restaura();
+		}
+	}
+
 	public boolean temProximoGerador() {
 		return proximo != null;
 	}

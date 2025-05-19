@@ -802,6 +802,35 @@ Expressao PExpCompreensaoLista() :
   }
 }
 
+Expressao PExpCompreensaoMapa() :
+{
+  ExpCompreensaoMapa retorno = null;
+  Expressao chave = null;
+  Expressao valor = null;
+  List geradores = new ArrayList();
+  Gerador geradorTemp = null;
+  Expressao filtro = null;
+}
+{
+  < LBRACE > chave = PExpressao() < MAP_ARROW > valor = PExpressao()
+  (
+    geradorTemp = PGerador()
+    {
+      geradores.add(geradorTemp);
+    }
+  )+
+  (
+    < IF > filtro = PExpressao()
+  )?
+  < RBRACE >
+  {
+    retorno = new ExpCompreensaoMapa(chave, valor);
+    retorno.setFiltro(filtro);
+    retorno.setGeradores(geradores);
+    return retorno;
+  }
+}
+
 Gerador PGerador() :
 {
   Id id = null;
@@ -862,8 +891,12 @@ Expressao PExpUnaria() :
     LOOKAHEAD(PExpCompreensaoLista())
     retorno = PExpCompreensaoLista()
   | 
+    LOOKAHEAD(PExpCompreensaoMapa())
+    retorno = PExpCompreensaoMapa()
+  | 
     LOOKAHEAD(PExpPrimaria())
     retorno = PExpPrimaria()
+    
   )
   {
     return retorno;
