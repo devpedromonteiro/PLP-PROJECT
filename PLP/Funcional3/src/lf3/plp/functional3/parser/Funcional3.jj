@@ -199,6 +199,7 @@ TOKEN : /* TOKENS DE FUNCIONAL 3 */
 | < GET : "get" >
 | < CONTAINS : "contains" >
 | < KEYS : "keys" >
+| < VALUES : "values" >
 }
 
 TOKEN : /* LITERALS */
@@ -751,6 +752,17 @@ Expressao PExpKeys() :
   }
 }
 
+Expressao PExpValues() :
+{
+  Expressao mapa = null;
+}
+{
+  < VALUES > < LPAREN > mapa = PExpressao() < RPAREN >
+  {
+    return new ExpValues(mapa);
+  }
+}
+
 Expressao PExpTail() :
 {
   Expressao tmpExp = null;
@@ -837,6 +849,9 @@ Expressao PExpUnaria() :
   | 
     LOOKAHEAD(PExpKeys())
     retorno = PExpKeys()
+  | 
+    LOOKAHEAD(PExpValues())
+    retorno = PExpValues()
   | 
     LOOKAHEAD(PExpDeclaracao())
     retorno = PExpDeclaracao()
