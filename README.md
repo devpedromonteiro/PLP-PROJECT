@@ -12,31 +12,44 @@ Implementar um novo tipo de valor `ValorMapa` que permita armazenar e manipular 
 
 ## 2. Gramática - Extensões Necessárias
 
-```bnf
 // Adição ao ValorConcreto existente
-ValorConcreto ::= ValorInteiro 
-                | ValorBooleano 
-                | ValorString 
-                | ValorLista 
-                | ValorMapa
+
+[ValorConcreto](PLP/Funcional3/src/lf3/plp/expressions2/expression/ValorConcreto.java) ::= [ValorInteiro](PLP/Funcional3/src/lf3/plp/expressions2/expression/ValorInteiro.java) 
+
+&emsp; &emsp; &emsp; &emsp;  &ensp;| [ValorBooleano](PLP/Funcional3/src/lf3/plp/expressions2/expression/ValorBooleano.java) 
+
+&emsp; &emsp; &emsp; &emsp;  &ensp;| [ValorString](PLP/Funcional3/src/lf3/plp/expressions2/expression/ValorString.java) 
+
+&emsp; &emsp; &emsp; &emsp;  &ensp;| [ValorLista](PLP/Funcional3/src/lf3/plp/functional3/expression/ValorLista.java)
+
+&emsp; &emsp; &emsp; &emsp;  &ensp;| [ValorMapa](PLP/Funcional3/src/lf3/plp/functional3/expression/ValorMapa.java)
 
 // Novas expressões para manipulação de mapas
-ExpMapa ::= "{" Expressao "=>" Expressao "}" 
-          | "insert" "(" Expressao "," Expressao "," Expressao ")"
-          | "remove" "(" Expressao "," Expressao ")"
-          | "get" "(" Expressao "," Expressao ")"
-          | "contains" "(" Expressao "," Expressao ")"
-          | "keys" "(" Expressao ")"
-          | "values" "(" Expressao ")"
-          | ExpCompreensaoMapa
+
+[ExpMapa](PLP/Funcional3/src/lf3/plp/functional3/expression/ExpMapa.java) ::= "{" [Expressao](PLP/Funcional3/src/lf3/plp/expressions2/expression/Expressao.java) "=>" [Expressao](PLP/Funcional3/src/lf3/plp/expressions2/expression/Expressao.java) "}"          // Criação de mapa
+
+&emsp; &emsp; &emsp; &emsp;  &ensp;| [ExpInsert](PLP/Funcional3/src/lf3/plp/functional3/expression/ExpInsert.java) "insert" "(" [Expressao](PLP/Funcional3/src/lf3/plp/expressions2/expression/Expressao.java) "," [Expressao](PLP/Funcional3/src/lf3/plp/expressions2/expression/Expressao.java) "," [Expressao](PLP/Funcional3/src/lf3/plp/expressions2/expression/Expressao.java) ")"  // Inserção
+
+&emsp; &emsp; &emsp; &emsp;  &ensp;| [ExpRemove](PLP/Funcional3/src/lf3/plp/functional3/expression/ExpRemove.java) "remove" "(" [Expressao](PLP/Funcional3/src/lf3/plp/expressions2/expression/Expressao.java) "," [Expressao](PLP/Funcional3/src/lf3/plp/expressions2/expression/Expressao.java) ")"                // Remoção
+
+&emsp; &emsp; &emsp; &emsp;  &ensp;| [ExpGet](PLP/Funcional3/src/lf3/plp/functional3/expression/ExpGet.java) "get" "(" [Expressao](PLP/Funcional3/src/lf3/plp/expressions2/expression/Expressao.java) "," [Expressao](PLP/Funcional3/src/lf3/plp/expressions2/expression/Expressao.java) ")"                   // Consulta
+
+&emsp; &emsp; &emsp; &emsp;  &ensp;| [ExpContains](PLP/Funcional3/src/lf3/plp/functional3/expression/ExpContains.java) "contains" "(" [Expressao](PLP/Funcional3/src/lf3/plp/expressions2/expression/Expressao.java) "," [Expressao](PLP/Funcional3/src/lf3/plp/expressions2/expression/Expressao.java) ")"              // Verificação
+
+&emsp; &emsp; &emsp; &emsp;  &ensp;| [ExpKeys](PLP/Funcional3/src/lf3/plp/functional3/expression/ExpKeys.java) "keys" "(" [Expressao](PLP/Funcional3/src/lf3/plp/expressions2/expression/Expressao.java) ")"                                // Lista de chaves
+
+&emsp; &emsp; &emsp; &emsp;  &ensp;| [ExpValues](PLP/Funcional3/src/lf3/plp/functional3/expression/ExpValues.java) "values" "(" [Expressao](PLP/Funcional3/src/lf3/plp/expressions2/expression/Expressao.java) ")"                              // Lista de valores
+
+&emsp; &emsp; &emsp; &emsp;  &ensp;| [ExpCompreensaoMapa](PLP/Funcional3/src/lf3/plp/functional3/expression/ExpCompreensaoMapa.java)
 
 // Nova expressão para compreensão de mapa
-ExpCompreensaoMapa ::= "{" Expressao "=>" Expressao Gerador+ [Filtro] "}"
 
-Gerador ::= "for" Id "in" Expressao [","]
+[ExpCompreensaoMapa](PLP/Funcional3/src/lf3/plp/functional3/expression/ExpCompreensaoMapa.java) ::= "{" [Expressao](PLP/Funcional3/src/lf3/plp/expressions2/expression/Expressao.java) "=>" [Expressao](PLP/Funcional3/src/lf3/plp/expressions2/expression/Expressao.java) [Gerador](PLP/Funcional3/src/lf3/plp/functional3/expression/Gerador.java)+ [[Filtro](PLP/Funcional3/src/lf3/plp/functional3/expression/Filtro.java)] "}"
 
-Filtro ::= "if" Expressao
-```
+[Gerador](PLP/Funcional3/src/lf3/plp/functional3/expression/Gerador.java) ::= "for" [Id](PLP/Funcional3/src/lf3/plp/expressions2/expression/Id.java) "in" [Expressao](PLP/Funcional3/src/lf3/plp/expressions2/expression/Expressao.java) [","]
+
+[Filtro](PLP/Funcional3/src/lf3/plp/functional3/expression/Filtro.java) ::= "if" [Expressao](PLP/Funcional3/src/lf3/plp/expressions2/expression/Expressao.java)
+
 
 ## 3. Operações Suportadas
 
