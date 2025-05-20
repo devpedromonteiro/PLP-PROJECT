@@ -122,15 +122,9 @@ let mapa = {
 } in
 
 // Mapa aninhado com múltiplos pares
-let configuracoes = {
-    "cores" => {
-        "primaria" => "azul",
-        "secundaria" => "vermelho"
-    },
-    "tamanhos" => {
-        "pequeno" => 10,
-        "grande" => 20
-    }
+let configuracoes = { 
+    "cores" => { "primaria" => "azul", "secundaria" => "vermelho" },
+    "tamanhos" => { "pequeno" => "10px", "grande" => "20px" }
 } in
 get(get(configuracoes, "cores"), "primaria")
 ```
