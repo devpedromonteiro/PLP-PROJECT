@@ -183,7 +183,11 @@ public class MultiInterpretador {
 		prog = Func3Parser.Input();
 
 		messageBoard.setText("sintaxe verificada com sucesso!\n");
-		messageBoard.append("resultado = " + prog.executar().toString());
+		if (prog.checaTipo()) {
+			messageBoard.append("resultado = " + prog.executar().toString());
+		} else {
+			messageBoard.append("erro de tipos!");
+		}
 	}
 
 	private void interpretarImp1(InputStream fis, String entradaStr)
