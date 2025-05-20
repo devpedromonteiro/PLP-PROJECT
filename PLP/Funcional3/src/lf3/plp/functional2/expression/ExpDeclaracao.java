@@ -59,7 +59,7 @@ public class ExpDeclaracao implements Expressao {
 		aux.restaura();
 
 		Valor vresult = expressao.avaliar(ambiente);
-		System.out.println("Resultado da avaliação de ExpDeclaracao: " + vresult);
+		//System.out.println("Resultado da avaliação de ExpDeclaracao: " + vresult);
 		
 		if(vresult instanceof ValorFuncao)
 			vresult.reduzir(ambiente);
