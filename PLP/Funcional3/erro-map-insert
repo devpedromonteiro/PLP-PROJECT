@@ -1,0 +1,2 @@
+let var mapa = { 1 => 2, 3 => 4 } in
+  insert(mapa, "4", 5)
