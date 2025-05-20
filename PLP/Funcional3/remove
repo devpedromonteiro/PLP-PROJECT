@@ -1,0 +1,3 @@
+// Retorno: resultado = {3 => 4}
+let var mapa = { 1 => 2, 3 => 4 } in
+  remove(mapa, 1)
