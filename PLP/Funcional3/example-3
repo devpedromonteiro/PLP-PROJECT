@@ -1,0 +1,7 @@
+let var mapa = { "um" => 1, "dois" => 2 } in
+let var comTres = insert(mapa, "tres", 3) in
+let var semDois = remove(comTres, "dois") in
+let var temUm = contains(semDois, "um") in
+let var valor = get(semDois, "tres") in
+let var todasChaves = keys(semDois) in
+valor

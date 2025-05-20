@@ -1,0 +1,6 @@
+let var dados = [1, 2, 3, 4, 5] in
+let var mapa = { 
+    x => x * x 
+    for x in dados 
+    if x > 2 
+} in mapa

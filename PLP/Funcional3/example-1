@@ -1,0 +1,5 @@
+let var configuracoes = { 
+    "cores" => { "primaria" => "azul", "secundaria" => "vermelho" },
+    "tamanhos" => { "pequeno" => "10px", "grande" => "20px" }
+} in
+get(get(configuracoes, "cores"), "primaria")
