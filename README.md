@@ -25,77 +25,101 @@ Implementar um novo tipo de valor `ValorMapa` que permita armazenar e manipular 
 &emsp; &emsp; &emsp; &emsp;  &ensp;| [ValorMapa](PLP/Funcional3/src/lf3/plp/functional3/expression/ValorMapa.java)
 
 // Novas expressões para manipulação de mapas
-
-[ExpMapa](PLP/Funcional3/src/lf3/plp/functional3/expression/ExpMapa.java) ::= "{" [Expressao](PLP/Funcional3/src/lf3/plp/expressions2/expression/Expressao.java) "=>" [Expressao](PLP/Funcional3/src/lf3/plp/expressions2/expression/Expressao.java) "}"          // Criação de mapa
-
-&emsp; &emsp; &emsp; &emsp;  &ensp;| [ExpInsert](PLP/Funcional3/src/lf3/plp/functional3/expression/ExpInsert.java) "insert" "(" [Expressao](PLP/Funcional3/src/lf3/plp/expressions2/expression/Expressao.java) "," [Expressao](PLP/Funcional3/src/lf3/plp/expressions2/expression/Expressao.java) "," [Expressao](PLP/Funcional3/src/lf3/plp/expressions2/expression/Expressao.java) ")"  // Inserção
-
-&emsp; &emsp; &emsp; &emsp;  &ensp;| [ExpRemove](PLP/Funcional3/src/lf3/plp/functional3/expression/ExpRemove.java) "remove" "(" [Expressao](PLP/Funcional3/src/lf3/plp/expressions2/expression/Expressao.java) "," [Expressao](PLP/Funcional3/src/lf3/plp/expressions2/expression/Expressao.java) ")"                // Remoção
-
-&emsp; &emsp; &emsp; &emsp;  &ensp;| [ExpGet](PLP/Funcional3/src/lf3/plp/functional3/expression/ExpGet.java) "get" "(" [Expressao](PLP/Funcional3/src/lf3/plp/expressions2/expression/Expressao.java) "," [Expressao](PLP/Funcional3/src/lf3/plp/expressions2/expression/Expressao.java) ")"                   // Consulta
-
-&emsp; &emsp; &emsp; &emsp;  &ensp;| [ExpContains](PLP/Funcional3/src/lf3/plp/functional3/expression/ExpContains.java) "contains" "(" [Expressao](PLP/Funcional3/src/lf3/plp/expressions2/expression/Expressao.java) "," [Expressao](PLP/Funcional3/src/lf3/plp/expressions2/expression/Expressao.java) ")"              // Verificação
-
-&emsp; &emsp; &emsp; &emsp;  &ensp;| [ExpKeys](PLP/Funcional3/src/lf3/plp/functional3/expression/ExpKeys.java) "keys" "(" [Expressao](PLP/Funcional3/src/lf3/plp/expressions2/expression/Expressao.java) ")"                                // Lista de chaves
-
-&emsp; &emsp; &emsp; &emsp;  &ensp;| [ExpValues](PLP/Funcional3/src/lf3/plp/functional3/expression/ExpValues.java) "values" "(" [Expressao](PLP/Funcional3/src/lf3/plp/expressions2/expression/Expressao.java) ")"                              // Lista de valores
-
-&emsp; &emsp; &emsp; &emsp;  &ensp;| [ExpCompreensaoMapa](PLP/Funcional3/src/lf3/plp/functional3/expression/ExpCompreensaoMapa.java)
-
-// Nova expressão para compreensão de mapa
+// Compreensão de mapas
 
 [ExpCompreensaoMapa](PLP/Funcional3/src/lf3/plp/functional3/expression/ExpCompreensaoMapa.java) ::= "{" [Expressao](PLP/Funcional3/src/lf3/plp/expressions2/expression/Expressao.java) "=>" [Expressao](PLP/Funcional3/src/lf3/plp/expressions2/expression/Expressao.java) [Gerador](PLP/Funcional3/src/lf3/plp/functional3/expression/Gerador.java)+ [[Filtro](PLP/Funcional3/src/lf3/plp/functional3/expression/Filtro.java)] "}"
 
-[Gerador](PLP/Funcional3/src/lf3/plp/functional3/expression/Gerador.java) ::= "for" [Id](PLP/Funcional3/src/lf3/plp/expressions2/expression/Id.java) "in" [Expressao](PLP/Funcional3/src/lf3/plp/expressions2/expression/Expressao.java) [","]
+[Gerador](PLP/Funcional3/src/lf3/plp/functional3/expression/Gerador.java) ::= "for" [Id](PLP/Funcional3/src/lf3/plp/expressions2/expression/Id.java) "in" [Expressao](PLP/Funcional3/src/lf3/plp/expressions2/expression/Expressao.java)
+                | "for" [Id](PLP/Funcional3/src/lf3/plp/expressions2/expression/Id.java) "in" [Expressao](PLP/Funcional3/src/lf3/plp/expressions2/expression/Expressao.java) [","] [Gerador](PLP/Funcional3/src/lf3/plp/functional3/expression/Gerador.java)
 
 [Filtro](PLP/Funcional3/src/lf3/plp/functional3/expression/Filtro.java) ::= "if" [Expressao](PLP/Funcional3/src/lf3/plp/expressions2/expression/Expressao.java)
 
+
+// Definições das demais expressões
+
+[ExpMapa](PLP/Funcional3/src/lf3/plp/functional3/expression/ExpMapa.java) ::= "{" [Expressao](PLP/Funcional3/src/lf3/plp/expressions2/expression/Expressao.java) "=>" [Expressao](PLP/Funcional3/src/lf3/plp/expressions2/expression/Expressao.java) "}"
+
+[ExpInsert](PLP/Funcional3/src/lf3/plp/functional3/expression/ExpInsert.java) ::= "insert" "(" [Expressao](PLP/Funcional3/src/lf3/plp/expressions2/expression/Expressao.java) "," [Expressao](PLP/Funcional3/src/lf3/plp/expressions2/expression/Expressao.java) "," [Expressao](PLP/Funcional3/src/lf3/plp/expressions2/expression/Expressao.java) ")"
+
+[ExpRemove](PLP/Funcional3/src/lf3/plp/functional3/expression/ExpRemove.java) ::= "remove" "(" [Expressao](PLP/Funcional3/src/lf3/plp/expressions2/expression/Expressao.java) "," [Expressao](PLP/Funcional3/src/lf3/plp/expressions2/expression/Expressao.java) ")"
+
+[ExpGet](PLP/Funcional3/src/lf3/plp/functional3/expression/ExpGet.java) ::= "get" "(" [Expressao](PLP/Funcional3/src/lf3/plp/expressions2/expression/Expressao.java) "," [Expressao](PLP/Funcional3/src/lf3/plp/expressions2/expression/Expressao.java) ")"
+
+[ExpContains](PLP/Funcional3/src/lf3/plp/functional3/expression/ExpContains.java) ::= "contains" "(" [Expressao](PLP/Funcional3/src/lf3/plp/expressions2/expression/Expressao.java) "," [Expressao](PLP/Funcional3/src/lf3/plp/expressions2/expression/Expressao.java) ")"
+
+[ExpKeys](PLP/Funcional3/src/lf3/plp/functional3/expression/ExpKeys.java) ::= "keys" "(" [Expressao](PLP/Funcional3/src/lf3/plp/expressions2/expression/Expressao.java) ")"
+
+[ExpValues](PLP/Funcional3/src/lf3/plp/functional3/expression/ExpValues.java) ::= "values" "(" [Expressao](PLP/Funcional3/src/lf3/plp/expressions2/expression/Expressao.java) ")"
+
+// Uso das expressões
+
+[ExpMapa](PLP/Funcional3/src/lf3/plp/functional3/expression/ExpMapa.java) ::= [ExpMapa](PLP/Funcional3/src/lf3/plp/functional3/expression/ExpMapa.java)
+
+&emsp; &emsp; &emsp; &emsp;  &ensp;| [ExpInsert](PLP/Funcional3/src/lf3/plp/functional3/expression/ExpInsert.java)
+
+&emsp; &emsp; &emsp; &emsp;  &ensp;| [ExpRemove](PLP/Funcional3/src/lf3/plp/functional3/expression/ExpRemove.java)
+
+&emsp; &emsp; &emsp; &emsp;  &ensp;| [ExpGet](PLP/Funcional3/src/lf3/plp/functional3/expression/ExpGet.java)
+
+&emsp; &emsp; &emsp; &emsp;  &ensp;| [ExpContains](PLP/Funcional3/src/lf3/plp/functional3/expression/ExpContains.java)
+
+&emsp; &emsp; &emsp; &emsp;  &ensp;| [ExpKeys](PLP/Funcional3/src/lf3/plp/functional3/expression/ExpKeys.java)
+
+&emsp; &emsp; &emsp; &emsp;  &ensp;| [ExpValues](PLP/Funcional3/src/lf3/plp/functional3/expression/ExpValues.java)
+
+&emsp; &emsp; &emsp; &emsp;  &ensp;| [ExpCompreensaoMapa](PLP/Funcional3/src/lf3/plp/functional3/expression/ExpCompreensaoMapa.java)
 
 ## 3. Operações Suportadas
 
 ### 3.1. Criação
 ```
-let mapa = { 1 => 2, 3 => 4 } in ...
+let var mapa = { 1 => 2, 3 => 4 } in ...
 ```
 
 ### 3.2. Inserção
 ```
-let novoMapa = insert(mapa, 4, 5) in ...
+let var novoMapa = insert(mapa, 4, 5) in ...
 ```
 
 ### 3.3. Remoção
 ```
-let semB = remove(mapa, 1) in ...
+let var semB = remove(mapa, 1) in ...
 ```
 
 ### 3.4. Consulta
 ```
-let valor = get(mapa, 3) in ...
-let existe = contains(mapa, 3) in ...
+let var valor = get(mapa, 3) in ...
+let var existe = contains(mapa, 3) in ...
 ```
 
 ### 3.5. Coleções
 ```
-let chaves = keys(mapa) in ...
-let valores = values(mapa) in ...
+let var chaves = keys(mapa) in ...
+let var valores = values(mapa) in ...
 ```
 
 ## 4. Exemplos de Uso
 
 ```
 // Criação e manipulação de mapa
-let mapa = { 1 => 2, 3 => 4 } in
-let comTres = insert(mapa, 4, 5) in
-let semDois = remove(comTres, 1) in
-let temUm = contains(semDois, 3) in
-let valor = get(semDois, 4) in
-let todasChaves = keys(semDois) in
+let var mapa = { 1 => 2, 3 => 4 } in
+let var comTres = insert(mapa, 4, 5) in
+let var semDois = remove(comTres, 1) in
+let var temUm = contains(semDois, 3) in
+let var valor = get(semDois, 4) in
+let var todasChaves = keys(semDois) in
 valor
 
 // Exemplo com mapas aninhados
-let configuracoes = { 
-    "cores" => { "primaria" => "azul", "secundaria" => "vermelho" },
-    "tamanhos" => { "pequeno" => "10px", "grande" => "20px" }
+let var configuracoes = {
+    "cores" => {
+        "primaria" => "azul",
+        "secundaria" => "vermelho"
+    },
+    "tamanhos" => {
+        "pequeno" => "10px",
+        "grande" => "20px"
+    }
 } in
 get(get(configuracoes, "cores"), "primaria")
 ```
@@ -103,30 +127,23 @@ get(get(configuracoes, "cores"), "primaria")
 ### 4.1 ExpCompreensaoMapa (Compreensão de Mapa)
 ```
 // Sem filtro
-let quadrados = { x => x * x for x in [1,2,3] } in
+let var quadrados = { x => x * x for x in [1,2,3] } in
 // Resultado: {1 => 1, 2 => 4, 3 => 9}
 
 // Com filtro
-let pares = { x => x * 2 for x in [1,2,3,4,5] if x > 2 } in
+let var pares = { x => x * 2 for x in [1,2,3,4,5] if x > 2 } in
 // Resultado: {3 => 6, 4 => 8, 5 => 10}
 ```
 
 ### 4.2 Exemplos Complexos Combinando os Conceitos
 ```
 // Criando mapa com compreensão e filtro
-let dados = [1, 2, 3, 4, 5] in
-let mapa = { 
+let var dados = [1, 2, 3, 4, 5] in
+let var mapa = { 
     x => x * x 
     for x in dados 
     if x > 2 
 } in
-
-// Mapa aninhado com múltiplos pares
-let configuracoes = { 
-    "cores" => { "primaria" => "azul", "secundaria" => "vermelho" },
-    "tamanhos" => { "pequeno" => "10px", "grande" => "20px" }
-} in
-get(get(configuracoes, "cores"), "primaria")
 ```
 
 ## 5 BNF Completa:
@@ -186,7 +203,8 @@ get(get(configuracoes, "cores"), "primaria")
 
 [ExpCompreensaoMapa](PLP/Funcional3/src/lf3/plp/functional3/expression/ExpCompreensaoMapa.java) ::= "{" [Expressao](PLP/Funcional3/src/lf3/plp/expressions2/expression/Expressao.java) "=>" [Expressao](PLP/Funcional3/src/lf3/plp/expressions2/expression/Expressao.java) [Gerador](PLP/Funcional3/src/lf3/plp/functional3/expression/Gerador.java)+ [[Filtro](PLP/Funcional3/src/lf3/plp/functional3/expression/Filtro.java)] "}"
 
-[Gerador](PLP/Funcional3/src/lf3/plp/functional3/expression/Gerador.java) ::= "for" [Id](PLP/Funcional3/src/lf3/plp/expressions2/expression/Id.java) "in" [Expressao](PLP/Funcional3/src/lf3/plp/expressions2/expression/Expressao.java) [","]
+[Gerador](PLP/Funcional3/src/lf3/plp/functional3/expression/Gerador.java) ::= "for" [Id](PLP/Funcional3/src/lf3/plp/expressions2/expression/Id.java) "in" [Expressao](PLP/Funcional3/src/lf3/plp/expressions2/expression/Expressao.java)
+                | "for" [Id](PLP/Funcional3/src/lf3/plp/expressions2/expression/Id.java) "in" [Expressao](PLP/Funcional3/src/lf3/plp/expressions2/expression/Expressao.java) [","] [Gerador](PLP/Funcional3/src/lf3/plp/functional3/expression/Gerador.java)
 
 [Filtro](PLP/Funcional3/src/lf3/plp/functional3/expression/Filtro.java) ::= "if" [Expressao](PLP/Funcional3/src/lf3/plp/expressions2/expression/Expressao.java)
 
@@ -214,19 +232,39 @@ get(get(configuracoes, "cores"), "primaria")
 
 &emsp; &emsp; &emsp; &emsp;  &ensp;| [Expressao](PLP/Funcional3/src/lf3/plp/expressions2/expression/Expressao.java) "^^" [Expressao](PLP/Funcional3/src/lf3/plp/expressions2/expression/Expressao.java)
 
-[ExpMapa](PLP/Funcional3/src/lf3/plp/functional3/expression/ExpMapa.java) ::= "{" [Expressao](PLP/Funcional3/src/lf3/plp/expressions2/expression/Expressao.java) "=>" [Expressao](PLP/Funcional3/src/lf3/plp/expressions2/expression/Expressao.java) "}"          // Criação de mapa
+// Definições das expressões
 
-&emsp; &emsp; &emsp; &emsp;  &ensp;| [ExpInsert](PLP/Funcional3/src/lf3/plp/functional3/expression/ExpInsert.java) "insert" "(" [Expressao](PLP/Funcional3/src/lf3/plp/expressions2/expression/Expressao.java) "," [Expressao](PLP/Funcional3/src/lf3/plp/expressions2/expression/Expressao.java) "," [Expressao](PLP/Funcional3/src/lf3/plp/expressions2/expression/Expressao.java) ")"  // Inserção
+[ExpMapa](PLP/Funcional3/src/lf3/plp/functional3/expression/ExpMapa.java) ::= "{" [Expressao](PLP/Funcional3/src/lf3/plp/expressions2/expression/Expressao.java) "=>" [Expressao](PLP/Funcional3/src/lf3/plp/expressions2/expression/Expressao.java) "}"
 
-&emsp; &emsp; &emsp; &emsp;  &ensp;| [ExpRemove](PLP/Funcional3/src/lf3/plp/functional3/expression/ExpRemove.java) "remove" "(" [Expressao](PLP/Funcional3/src/lf3/plp/expressions2/expression/Expressao.java) "," [Expressao](PLP/Funcional3/src/lf3/plp/expressions2/expression/Expressao.java) ")"                // Remoção
+[ExpInsert](PLP/Funcional3/src/lf3/plp/functional3/expression/ExpInsert.java) ::= "insert" "(" [Expressao](PLP/Funcional3/src/lf3/plp/expressions2/expression/Expressao.java) "," [Expressao](PLP/Funcional3/src/lf3/plp/expressions2/expression/Expressao.java) "," [Expressao](PLP/Funcional3/src/lf3/plp/expressions2/expression/Expressao.java) ")"
 
-&emsp; &emsp; &emsp; &emsp;  &ensp;| [ExpGet](PLP/Funcional3/src/lf3/plp/functional3/expression/ExpGet.java) "get" "(" [Expressao](PLP/Funcional3/src/lf3/plp/expressions2/expression/Expressao.java) "," [Expressao](PLP/Funcional3/src/lf3/plp/expressions2/expression/Expressao.java) ")"                   // Consulta
+[ExpRemove](PLP/Funcional3/src/lf3/plp/functional3/expression/ExpRemove.java) ::= "remove" "(" [Expressao](PLP/Funcional3/src/lf3/plp/expressions2/expression/Expressao.java) "," [Expressao](PLP/Funcional3/src/lf3/plp/expressions2/expression/Expressao.java) ")"
 
-&emsp; &emsp; &emsp; &emsp;  &ensp;| [ExpContains](PLP/Funcional3/src/lf3/plp/functional3/expression/ExpContains.java) "contains" "(" [Expressao](PLP/Funcional3/src/lf3/plp/expressions2/expression/Expressao.java) "," [Expressao](PLP/Funcional3/src/lf3/plp/expressions2/expression/Expressao.java) ")"              // Verificação
+[ExpGet](PLP/Funcional3/src/lf3/plp/functional3/expression/ExpGet.java) ::= "get" "(" [Expressao](PLP/Funcional3/src/lf3/plp/expressions2/expression/Expressao.java) "," [Expressao](PLP/Funcional3/src/lf3/plp/expressions2/expression/Expressao.java) ")"
 
-&emsp; &emsp; &emsp; &emsp;  &ensp;| [ExpKeys](PLP/Funcional3/src/lf3/plp/functional3/expression/ExpKeys.java) "keys" "(" [Expressao](PLP/Funcional3/src/lf3/plp/expressions2/expression/Expressao.java) ")"                                // Lista de chaves
+[ExpContains](PLP/Funcional3/src/lf3/plp/functional3/expression/ExpContains.java) ::= "contains" "(" [Expressao](PLP/Funcional3/src/lf3/plp/expressions2/expression/Expressao.java) "," [Expressao](PLP/Funcional3/src/lf3/plp/expressions2/expression/Expressao.java) ")"
 
-&emsp; &emsp; &emsp; &emsp;  &ensp;| [ExpValues](PLP/Funcional3/src/lf3/plp/functional3/expression/ExpValues.java) "values" "(" [Expressao](PLP/Funcional3/src/lf3/plp/expressions2/expression/Expressao.java) ")"                              // Lista de valores
+[ExpKeys](PLP/Funcional3/src/lf3/plp/functional3/expression/ExpKeys.java) ::= "keys" "(" [Expressao](PLP/Funcional3/src/lf3/plp/expressions2/expression/Expressao.java) ")"
+
+[ExpValues](PLP/Funcional3/src/lf3/plp/functional3/expression/ExpValues.java) ::= "values" "(" [Expressao](PLP/Funcional3/src/lf3/plp/expressions2/expression/Expressao.java) ")"
+
+[ExpCompreensaoMapa](PLP/Funcional3/src/lf3/plp/functional3/expression/ExpCompreensaoMapa.java) ::= "{" [Expressao](PLP/Funcional3/src/lf3/plp/expressions2/expression/Expressao.java) "=>" [Expressao](PLP/Funcional3/src/lf3/plp/expressions2/expression/Expressao.java) [Gerador](PLP/Funcional3/src/lf3/plp/functional3/expression/Gerador.java)+ [[Filtro](PLP/Funcional3/src/lf3/plp/functional3/expression/Filtro.java)] "}"
+
+// Uso das expressões
+
+[ExpMapa](PLP/Funcional3/src/lf3/plp/functional3/expression/ExpMapa.java) ::= [ExpMapa](PLP/Funcional3/src/lf3/plp/functional3/expression/ExpMapa.java)
+
+&emsp; &emsp; &emsp; &emsp;  &ensp;| [ExpInsert](PLP/Funcional3/src/lf3/plp/functional3/expression/ExpInsert.java)
+
+&emsp; &emsp; &emsp; &emsp;  &ensp;| [ExpRemove](PLP/Funcional3/src/lf3/plp/functional3/expression/ExpRemove.java)
+
+&emsp; &emsp; &emsp; &emsp;  &ensp;| [ExpGet](PLP/Funcional3/src/lf3/plp/functional3/expression/ExpGet.java)
+
+&emsp; &emsp; &emsp; &emsp;  &ensp;| [ExpContains](PLP/Funcional3/src/lf3/plp/functional3/expression/ExpContains.java)
+
+&emsp; &emsp; &emsp; &emsp;  &ensp;| [ExpKeys](PLP/Funcional3/src/lf3/plp/functional3/expression/ExpKeys.java)
+
+&emsp; &emsp; &emsp; &emsp;  &ensp;| [ExpValues](PLP/Funcional3/src/lf3/plp/functional3/expression/ExpValues.java)
 
 &emsp; &emsp; &emsp; &emsp;  &ensp;| [ExpCompreensaoMapa](PLP/Funcional3/src/lf3/plp/functional3/expression/ExpCompreensaoMapa.java)
 
