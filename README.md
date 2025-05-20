@@ -25,6 +25,7 @@ Implementar um novo tipo de valor `ValorMapa` que permita armazenar e manipular 
 &emsp; &emsp; &emsp; &emsp;  &ensp;| [ValorMapa](PLP/Funcional3/src/lf3/plp/functional3/expression/ValorMapa.java)
 
 // Novas expressões para manipulação de mapas
+
 // Compreensão de mapas
 
 [ExpCompreensaoMapa](PLP/Funcional3/src/lf3/plp/functional3/expression/ExpCompreensaoMapa.java) ::= "{" [Expressao](PLP/Funcional3/src/lf3/plp/expressions2/expression/Expressao.java) "=>" [Expressao](PLP/Funcional3/src/lf3/plp/expressions2/expression/Expressao.java) [Gerador](PLP/Funcional3/src/lf3/plp/functional3/expression/Gerador.java)+ [[Filtro](PLP/Funcional3/src/lf3/plp/functional3/expression/Filtro.java)] "}"
